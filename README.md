@@ -45,7 +45,7 @@ Signing is intentionally a two-stage operation:
    empty. CodeSign creates `source/RcAstro/RcAstro.xsgn`.
 3. Build a new release package and unsigned manifest:
 
-   `.\release.ps1 -Version 1.0.0`
+   `.\release.ps1 -Version 1.0.1`
 
 4. In CodeSign, sign `updates.xri`. This adds the XML signature in place and
    must be the final modification to that file.

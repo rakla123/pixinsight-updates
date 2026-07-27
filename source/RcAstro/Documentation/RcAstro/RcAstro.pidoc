@@ -22,7 +22,7 @@
 
 \brief
 {
-   Version 1.0.0. A PixInsight V8 graphical wrapper for the stand-alone
+   Version 1.0.1. A PixInsight V8 graphical wrapper for the stand-alone
    RC-Astro command-line tools.
 }
 

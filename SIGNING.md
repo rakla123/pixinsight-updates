@@ -30,7 +30,7 @@ signature.
 From the repository root, run:
 
 ```powershell
-.\release.ps1 -Version 1.0.0
+.\release.ps1 -Version 1.0.1
 ```
 
 The release script includes `RcAstro.xsgn` in the ZIP, calculates the package
