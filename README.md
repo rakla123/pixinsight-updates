@@ -36,3 +36,4 @@ signed with PixInsight's **Script > Development > CodeSign** utility using the
 certified FlapAstro signing identity.
 
 Never commit a `.xssk` private signing-key file or its password.
+
