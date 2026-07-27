@@ -44,6 +44,14 @@
 // - Progress shown in script window only.
 // - Console limited to summary.
 // - Full stdout/stderr log.
+//
+// Reading map:
+//   1. Small platform, path, settings, and console helpers.
+//   2. RC-Astro output and version parsing.
+//   3. PixInsight view/XISF/STF interoperability.
+//   4. CLI argument construction and validation.
+//   5. Dialog construction, persistence, and process-instance support.
+//   6. The run pipeline: prepare, launch, monitor, open results, clean up.
 
 CoreApplication.ensureMinimumVersion( 1, 9, 4 );
 
@@ -112,6 +120,9 @@ function appendNxtDenoiseOption( args, flag, value, bands, usedBands )
    if ( !isNonZeroNumberString( value ) )
       return;
 
+   // NXT denoise switches can address overlapping frequency/channel bands.
+   // Keep the first, most general selected option and suppress later options
+   // that would configure any of the same bands a second time.
    if ( stringArraysOverlap( bands, usedBands ) )
       return;
 
@@ -216,6 +227,9 @@ function quoteArgsForLog( args )
 
 function splitCommandLine( s )
 {
+   // Extra arguments are stored as one user-editable string. Parse the small
+   // quoted/escaped subset needed by the CLI instead of invoking a shell.
+   // ExternalProcess receives the resulting argument array directly.
    var args = [];
    var current = "";
    var inQuotes = false;
@@ -643,6 +657,8 @@ function verifyRCAstroCompatibility( executable )
       throw new Error( "RC-Astro CLI executable was not found:\n" + executable );
 
    var cacheKey = executable.replace( /\\/g, "/" ).toLowerCase();
+   // A version probe starts a separate process. Cache successful probes for
+   // this script session so opening Preferences or starting a run is cheap.
    if ( rcAstroVersionCache[cacheKey] )
       return rcAstroVersionCache[cacheKey];
 
@@ -761,6 +777,8 @@ function saveViewToXISF( view, path )
       var channelCount = sourceImage.numberOfChannels;
       var sourceWindow = view.window;
 
+      // Never save the user's image window directly: that could change its
+      // file association or modified state. Work through a disposable clone.
       tmpWindow = new ImageWindow(
          sourceImage.width,
          sourceImage.height,
@@ -852,6 +870,8 @@ function isIdentityViewSTF( stf )
 
 function captureViewDisplayState( view )
 {
+   // STF is a screen-only display transform. Copying it makes a newly opened
+   // result look like its input without applying a permanent image stretch.
    var stf = cloneViewSTF( view );
    var hasScreenStretch = !isIdentityViewSTF( stf );
 
@@ -871,6 +891,8 @@ function normalizedPathForComparison( path )
 
 function findOpenViewForFile( filePath )
 {
+   // Manual-file mode can inherit an STF only when that same file is already
+   // open in PixInsight. Compare normalized absolute paths, not view ids.
    var wanted = normalizedPathForComparison( filePath );
    if ( wanted.length == 0 )
       return null;
@@ -1045,6 +1067,9 @@ function selectSaveFile( caption, filters )
 // -----------------------------------------------------------------------------
 //
 // This is the single place to adapt RC-Astro CLI option names.
+// Keeping option emission centralized also ensures that the GUI, process
+// instances, logging, and manual/active-view modes all launch identical CLI
+// commands.
 //
 // Confirm locally with:
 //   rc-astro bxt
@@ -1153,6 +1178,8 @@ function buildRCAstroArgs(
    }
    else if ( tool == "nxt" )
    {
+      // Add broader NXT controls first. appendNxtDenoiseOption() records the
+      // bands they own and prevents narrower controls from duplicating them.
       var usedBands = [];
       var ihf = "intensity-high";
       var ilf = "intensity-low";
@@ -1319,6 +1346,8 @@ var RunRCAstroDialog = class extends Dialog
    {
    super();
 
+   // Event handlers close over self because PJSR callbacks bind "this" to the
+   // control that emitted the event, not necessarily to the dialog.
    var self = this;
 
    this.windowTitle = "RC-Astro CLI Wrapper";
@@ -2342,6 +2371,8 @@ var RunRCAstroDialog = class extends Dialog
    {
       if ( self.processRunning )
       {
+         // While a CLI process is active, the Close button is deliberately
+         // repurposed as a cooperative Cancel request handled by the poll loop.
          self.cancelRequested = true;
          self.closeButton.enabled = false;
          self.closeButton.text = "Cancelling...";
@@ -2393,6 +2424,8 @@ var RunRCAstroDialog = class extends Dialog
 
       try
       {
+         // Export GUI state before creating the draggable process instance so
+         // dropping it on a view reproduces the current configuration.
          self.exportInstanceParameters();
          self.saveSettings();
          self.newInstance();
@@ -2767,6 +2800,9 @@ var RunRCAstroDialog = class extends Dialog
 
          if ( useActiveView )
          {
+            // Active-view mode serializes a safe temporary XISF. The original
+            // PixInsight window remains open, unmodified, and associated with
+            // its original file.
             if ( tempDir.length == 0 )
                throw new Error( "No temporary directory specified." );
 
@@ -2817,6 +2853,8 @@ var RunRCAstroDialog = class extends Dialog
          }
          else
          {
+            // Manual mode operates on disk files. If the input is also open in
+            // PixInsight, capture its display STF for the output window.
             if ( logFile.length == 0 )
                throw new Error( "No log file specified." );
 
@@ -2861,6 +2899,8 @@ var RunRCAstroDialog = class extends Dialog
 
          if ( self.overwriteCheck.checked )
          {
+            // Remove stale outputs before launch. Otherwise a previous file
+            // could be mistaken for a successful result after a CLI failure.
             removeFileIfExists( outputFile );
 
             if ( tool == "sxt" && self.sxtStarsCheck.checked )
@@ -2955,6 +2995,9 @@ var RunRCAstroDialog = class extends Dialog
 
          CoreApplication.processEvents();
 
+         // ExternalProcess is started asynchronously. The loop below keeps the
+         // dialog responsive, streams output, updates progress, and observes
+         // cancellation without blocking PixInsight for the whole operation.
          var p = new ExternalProcess;
          p.start( rcAstroExe, args );
 
@@ -2972,6 +3015,8 @@ var RunRCAstroDialog = class extends Dialog
          var gpuUsed = "";
          var toolInfo = "";
          var maxSilentSeconds = 3300;
+         // This is an inactivity timeout, not a total processing limit. Long
+         // runs may exceed it as long as RC-Astro continues producing output.
          var lastOutputChangeTime = startTime;
          var lastLogRefreshSecond = -1;
 
@@ -3031,6 +3076,8 @@ var RunRCAstroDialog = class extends Dialog
                stderrBuffer += stderrChunk;
                lastOutputChangeTime = now;
 
+               // Parse only a bounded tail. Full stdout/stderr remain in the
+               // buffers for the final log, while parsing cost stays stable.
                var combinedLive =
                   tailString( stdoutBuffer, parseTailLength ) + "\n" +
                   tailString( stderrBuffer, parseTailLength );
@@ -3130,6 +3177,8 @@ var RunRCAstroDialog = class extends Dialog
 
             if ( elapsedSeconds != lastLogRefreshSecond && elapsedSeconds % 15 == 0 )
             {
+               // Periodic snapshots make diagnostics available even if
+               // PixInsight or the external process terminates unexpectedly.
                lastLogRefreshSecond = elapsedSeconds;
                File.writeTextFile(
                   logFile,
@@ -3202,6 +3251,8 @@ var RunRCAstroDialog = class extends Dialog
 
          if ( exitCode === 0 )
          {
+            // Exit code zero is necessary but not sufficient: reject missing
+            // or empty outputs instead of presenting a false success.
             if ( fileExists( outputFile ) && fileSize( outputFile ) > 0 )
             {
                var sxtStarsOutputFile = "";
@@ -3209,6 +3260,8 @@ var RunRCAstroDialog = class extends Dialog
 
                if ( openResult )
                {
+                  // Reapply the captured STF only as a display property; image
+                  // samples written by RC-Astro are never stretched here.
                   self.statusText.text =
                      "OPENING RESULT\n\n" +
                      "RC-Astro finished successfully.\n\n" +
@@ -3361,6 +3414,8 @@ var RunRCAstroDialog = class extends Dialog
       }
       finally
       {
+         // This block is the common exit path for success, CLI failure,
+         // validation errors after preparation, and user cancellation.
          if ( useActiveView && !keepTemp && temporaryInputFile.length > 0 )
          {
             try
