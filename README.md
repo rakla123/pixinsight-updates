@@ -32,6 +32,12 @@ avoid duplicate script identifiers.
 
 ## Signing
 
+Until PixInsight approves and distributes the `FlapAstro` developer
+certificate, releases are intentionally unsigned. Users must allow unsigned
+scripts in PixInsight. Build these interim releases with:
+
+`.\release.ps1 -Version 1.0.1 -Unsigned`
+
 Production releases must contain `RcAstro.xsgn`, and `updates.xri` must be
 signed with PixInsight's **Script > Development > CodeSign** utility using the
 certified FlapAstro signing identity.

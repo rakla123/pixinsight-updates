@@ -5,7 +5,9 @@ param(
    [string] $SourceDirectory = "",
 
    [string] $ReleaseTimestamp =
-      [DateTime]::UtcNow.ToString("yyyyMMddHHmmss")
+      [DateTime]::UtcNow.ToString("yyyyMMddHHmmss"),
+
+   [switch] $Unsigned
 )
 
 $ErrorActionPreference = "Stop"
@@ -78,12 +80,21 @@ foreach ($name in @(
 }
 
 $signaturePath = Join-Path $sourceRoot "RcAstro.xsgn"
-if (Test-Path -LiteralPath $signaturePath -PathType Leaf) {
+if ($Unsigned) {
+   Write-Warning (
+      "Building an unsigned package. Use this only until the FlapAstro " +
+      "identity is listed by lscpd."
+   )
+}
+elseif (Test-Path -LiteralPath $signaturePath -PathType Leaf) {
    Copy-Item -LiteralPath $signaturePath `
       -Destination (Join-Path $scriptRoot "RcAstro.xsgn")
 }
 else {
-   Write-Warning "RcAstro.xsgn was not found. The package will be unsigned."
+   throw (
+      "RcAstro.xsgn was not found. Sign RcAstro.js first, or explicitly " +
+      "build with -Unsigned."
+   )
 }
 
 Copy-Item -LiteralPath (
@@ -154,4 +165,12 @@ Write-Host "Package:  $packagePath"
 Write-Host "SHA-1:    $sha1"
 Write-Host "Manifest: $manifestPath"
 Write-Host ""
-Write-Host "Next: sign updates.xri with PixInsight CodeSign, then publish."
+if ($Unsigned) {
+   Write-Warning (
+      "Publish updates.xri without signing it. Users must allow unsigned " +
+      "scripts in PixInsight."
+   )
+}
+else {
+   Write-Host "Next: sign updates.xri with PixInsight CodeSign, then publish."
+}
