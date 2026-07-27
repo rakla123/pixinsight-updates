@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+   <title>PixInsight Reference Documentation | RC-Astro CLI Wrapper</title>
+   <meta name="keywords" content="RC-Astro, BlurXTerminator, StarXTerminator, NoiseXTerminator, PixInsight, deconvolution, star removal, noise reduction" />
+   <meta name="author" content="FlapAstro" />
+   <meta name="description" content="Version 1.0.0. A PixInsight V8 graphical wrapper for the stand-alone RC-Astro command-line tools." />
+   <meta name="robots" content="INDEX,FOLLOW" />
+   <meta name="generator" content="PixInsight Documentation Compiler script version 1.7.3" />
+   <meta name="pidoc-document-class" content="PIScriptDoc" />
+   <script type="text/javascript" src="../../pidoc/scripts/pidoc-utility.js"></script>
+   <link type="text/css" href="../../pidoc/css/pidoc-common.css" rel="stylesheet" />
+   <link type="text/css" href="../../pidoc/css/pidoc-highlight.css" rel="stylesheet" />
+   <link type="text/css" href="../../pidoc/css/pidoc-tool.css" rel="stylesheet" />
+   <link rel="icon" href="../../pidoc/icons/pidoc-icon.svg" />
+</head>
+<body>
+<script type="text/javascript">
+   pidoc_generateDynamicContents();
+</script>
+
+<h1>RC-Astro CLI Wrapper</h1>
+
+<div id="authors">
+<p>By FlapAstro</p>
+</div>
+
+<hr class="separator"/>
+
+<div id="brief">
+<p>Version 1.0.0. A PixInsight V8 graphical wrapper for the stand-alone RC-Astro command-line tools. <a href="#__contents__">[more]</a></p></div>
+
+<div id="keywords">
+<p><strong>Keywords:</strong> RC-Astro, BlurXTerminator, StarXTerminator, NoiseXTerminator, PixInsight, deconvolution, star removal, noise reduction</p>
+</div>
+
+<h3 class="pidoc_sectionTitle" id="__toc__">Contents</h3>
+<p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'toc', this );">[hide]</p>
+<div id="toc">
+<ul>
+<li class="pidoc_tocItem"><a href="#__Description__">1&emsp;Description</a>
+<ul>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Requirements__">1.1&emsp;Requirements</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Startup_checks__">1.2&emsp;Startup checks</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Processing_modes__">1.3&emsp;Processing modes</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_BlurXTerminator__">1.4&emsp;BlurXTerminator</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_StarXTerminator__">1.5&emsp;StarXTerminator</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_NoiseXTerminator__">1.6&emsp;NoiseXTerminator</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Progress_and_cancellation__">1.7&emsp;Progress and cancellation</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Troubleshooting__">1.8&emsp;Troubleshooting</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_License_and_warranty__">1.9&emsp;License and warranty</a></li>
+</ul>
+</li>
+<li class="pidoc_tocItem"><a href="#__Acknowledgments__">2&emsp;Acknowledgments</a></li>
+</ul>
+</div>
+
+<div id="__contents__">
+
+<div class="pidoc_section" id="__Description__">
+   <h3 class="pidoc_sectionTitle">1&emsp;Description</h3>
+   <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Description', this );">[hide]</p>
+   <div id="Description">
+<p>RC-Astro CLI Wrapper provides a PixInsight graphical interface for the stand-alone BlurXTerminator, StarXTerminator, and NoiseXTerminator command-line tools. It can process the active PixInsight view or image files selected manually. The documentation button beside the Preferences button opens this bundled compiler-generated PIDoc page.</p>
+<div class="pidoc_subsection" id="__Description_:_Requirements__">
+   <h4 class="pidoc_subsectionTitle">1.1&emsp;Requirements</h4>
+<p>PixInsight 1.9.4 or newer with the V8 JavaScript runtime is required. RC-Astro CLI version 1.0.0 or newer is required. This release has been tested with RC-Astro CLI version 1.1.0.</p>
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_Startup_checks__">
+   <h4 class="pidoc_subsectionTitle">1.2&emsp;Startup checks</h4>
+<p>At startup, the script locates the configured RC-Astro executable and reads its machine-readable catalog with <span class="pidoc_code">rc-astro &ndash;json</span>. Versions older than 1.0.0 are rejected. Versions newer than 1.1.0 generate a warning because they were not available when this wrapper was tested. When the check succeeds, the main status area displays Ready together with the installed CLI version and executable path.</p>
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_Processing_modes__">
+   <h4 class="pidoc_subsectionTitle">1.3&emsp;Processing modes</h4>
+
+<ul class="pidoc_list">
+<li><strong>Active PixInsight view</strong> saves a temporary XISF copy of the selected view, runs RC-Astro, and opens the result as a new image.</li>
+<li><strong>Manual file</strong> processes an input file and writes to the selected output path.</li>
+</ul>
+
+<p>The triangular New Instance button at the lower left creates a standard PixInsight process icon containing the current RC-Astro processing settings. Drag or click the icon onto a view to reuse those settings. Active-view instances obtain their image from the target or active view; manual-file instances also retain their input, output, and log paths. Machine-specific executable and temporary-directory preferences, detected CLI status, progress, and other transient run-time state are deliberately excluded. Configure machine-specific paths with the Preferences button on each computer.</p>
+
+<p>When a result is opened, the wrapper copies the exact screen transfer function (STF) of the input view. A nonidentity STF is retained for the usual linear-image workflow, while an identity STF remains identity for an already stretched nonlinear image, avoiding an unintended second stretch. This changes display only and never modifies output pixels. In manual-file mode the STF can be copied only when the selected input file is already open in PixInsight; otherwise the result opens with its default identity STF. The same rule is applied to an optional StarXTerminator stars-only output.</p>
+
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_BlurXTerminator__">
+   <h4 class="pidoc_subsectionTitle">1.4&emsp;BlurXTerminator</h4>
+<p>Automatic nonstellar PSF is the normal mode. BlurXTerminator estimates the PSF from stars and can correct optical aberrations in nonstellar features.</p>
+<p>For starless, lunar, or planetary images, disable automatic nonstellar PSF and set the nonstellar diameter to the expected stellar FWHM in pixels. Manual mode assumes a round PSF and cannot correct optical aberrations.</p>
+<p>This wrapper uses the RC-Astro 1.0.0 and later parameters <span class="pidoc_code">&ndash;auto-nonstellar-psf</span> and <span class="pidoc_code">&ndash;nonstellar-diameter</span>. The obsolete radius parameters are not used.</p>
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_StarXTerminator__">
+   <h4 class="pidoc_subsectionTitle">1.5&emsp;StarXTerminator</h4>
+<p>The StarXTerminator panel provides optional stars-image output and unscreened-stars controls in addition to the common RC-Astro options.</p>
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_NoiseXTerminator__">
+   <h4 class="pidoc_subsectionTitle">1.6&emsp;NoiseXTerminator</h4>
+<p>The NoiseXTerminator panel provides controls for luminance and color denoising, frequency scale, and iterations. The newer ML3 model produces the same result with improved execution speed on Windows and Linux. The macOS NoiseXTerminator ML3 model was not updated with this optimization.</p>
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_Progress_and_cancellation__">
+   <h4 class="pidoc_subsectionTitle">1.7&emsp;Progress and cancellation</h4>
+<p>RC-Astro output is monitored while processing. A job is stopped if the process produces no new output for 55 minutes. The total processing time is otherwise not limited. Closing the dialog during processing requests cancellation. Completion and failure details are shown in the main status area and written to the PixInsight console; successful completion does not display a modal popup.</p>
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_Troubleshooting__">
+   <h4 class="pidoc_subsectionTitle">1.8&emsp;Troubleshooting</h4>
+
+<ul class="pidoc_list">
+<li><strong>CLI not found:</strong> Open Preferences and select the installed <span class="pidoc_code">rc-astro</span> executable.</li>
+<li><strong>Version check failed:</strong> Run <span class="pidoc_code">rc-astro &ndash;json</span> in a terminal and verify that it returns a <span class="pidoc_code">cliVersion</span>.</li>
+<li><strong>Exit code 77:</strong> The selected RC-Astro product is not licensed on this computer.</li>
+<li><strong>Missing output:</strong> Inspect the full log and verify that the output directory is writable.</li>
+</ul>
+
+</div>
+
+<div class="pidoc_subsection" id="__Description_:_License_and_warranty__">
+   <h4 class="pidoc_subsectionTitle">1.9&emsp;License and warranty</h4>
+<p>The FlapAstro wrapper is licensed under the PolyForm Noncommercial License 1.0.0.</p>
+
+<div class="pidoc_warning">
+<p>This software is provided &quot;AS IS&quot;, without warranty of any kind, including fitness for a particular purpose. Use is entirely at the user's sole risk and responsibility.</p>
+</div>
+</div>
+
+   </div>
+</div>
+
+<div class="pidoc_section" id="__Acknowledgments__">
+   <h3 class="pidoc_sectionTitle">2&emsp;Acknowledgments</h3>
+   <p class="pidoc_sectionToggleButton" onclick="pidoc_toggleSection( 'Acknowledgments', this );">[hide]</p>
+   <div id="Acknowledgments">
+<p>This software was developed with assistance from OpenAI Codex. The resulting code was reviewed, tested, and is maintained under the responsibility of FlapAstro.</p>
+<p>RC-Astro CLI, BlurXTerminator, StarXTerminator, and NoiseXTerminator are proprietary software of RC Astro, LLC. PixInsight and the PixInsight JavaScript Runtime are software of Pleiades Astrophoto S.L. These products remain subject to their respective separate licenses and are not included with this wrapper. All product names and trademarks belong to their respective owners. This independent wrapper is not endorsed by either company.</p>
+   </div>
+</div>
+
+<hr class="separator"/>
+
+<div id="copyright">
+   <p>Copyright (c) 2026 FlapAstro. PolyForm Noncommercial License 1.0.0.</p>
+</div>
+
+<div id="footer">
+   <p>Generated by the PixInsight Documentation Compiler script version 1.7.3 on 2026-07-26 20:42:42 UTC</p>
+</div>
+<br/>
+<br/>
+
+</div> <!-- contents -->
+
+</body>
+</html>

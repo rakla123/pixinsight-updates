@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="window" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f7fb"/>
+      <stop offset="1" stop-color="#cdd6e5"/>
+    </linearGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#245a9a"/>
+      <stop offset="1" stop-color="#4c91d7"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="7" width="54" height="49" rx="4" fill="url(#window)" stroke="#1f334d" stroke-width="2"/>
+  <path d="M9 7h46a4 4 0 0 1 4 4v8H5v-8a4 4 0 0 1 4-4z" fill="url(#title)"/>
+  <circle cx="11" cy="13" r="2" fill="#ffcf4b"/>
+  <circle cx="17" cy="13" r="2" fill="#72d483"/>
+  <path d="M24 13h25" stroke="#dcecff" stroke-width="2" stroke-linecap="round"/>
+  <rect x="10" y="24" width="12" height="12" rx="2" fill="#4b8fd8"/>
+  <rect x="26" y="24" width="12" height="12" rx="2" fill="#805ac7"/>
+  <rect x="42" y="24" width="12" height="12" rx="2" fill="#35a987"/>
+  <g fill="#fff" font-family="Segoe UI,Arial,sans-serif" font-size="8" font-weight="700" text-anchor="middle">
+    <text x="16" y="33">B</text>
+    <text x="32" y="33">S</text>
+    <text x="48" y="33">N</text>
+  </g>
+  <path d="M11 43h8m5 0h29M11 49h20m5 0h17" stroke="#53657a" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="21" cy="43" r="3" fill="#fff" stroke="#245a9a" stroke-width="2"/>
+  <circle cx="33" cy="49" r="3" fill="#fff" stroke="#245a9a" stroke-width="2"/>
+  <path d="M46 40l8 5-8 5z" fill="#2c75ba"/>
+</svg>

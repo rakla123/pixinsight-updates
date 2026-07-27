@@ -27,13 +27,29 @@ avoid duplicate script identifiers.
 
 - `updates.xri` — PixInsight update manifest
 - `packages/` — installation-root update archives
+- `source/RcAstro/` — authoritative script and documentation sources
 - `release.ps1` — local release package and manifest generator
 
 ## Signing
 
-Production releases should contain `RcAstro.xsgn`, and `updates.xri` should be
+Production releases must contain `RcAstro.xsgn`, and `updates.xri` must be
 signed with PixInsight's **Script > Development > CodeSign** utility using the
 certified FlapAstro signing identity.
 
-Never commit a `.xssk` private signing-key file or its password.
+Signing is intentionally a two-stage operation:
 
+1. Confirm that `FlapAstro` is listed by the `lscpd` command in PixInsight's
+   Process Console.
+2. In CodeSign, sign `source/RcAstro/RcAstro.js`. Use the private `.xssk` file
+   stored outside this repository, enter its password, and leave Entitlements
+   empty. CodeSign creates `source/RcAstro/RcAstro.xsgn`.
+3. Build a new release package and unsigned manifest:
+
+   `.\release.ps1 -Version 1.0.0`
+
+4. In CodeSign, sign `updates.xri`. This adds the XML signature in place and
+   must be the final modification to that file.
+5. Verify the package SHA-1 against `updates.xri`, then commit and publish the
+   new `.xsgn`, package, and signed manifest together.
+
+Never commit a `.xssk` private signing-key file or its password.

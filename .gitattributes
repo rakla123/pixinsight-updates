@@ -1,0 +1,5 @@
+# Code signatures are byte-sensitive. Never normalize signed artifacts.
+updates.xri -text
+source/RcAstro/RcAstro.js -text
+source/RcAstro/RcAstro.xsgn -text
+*.zip binary

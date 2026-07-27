@@ -2,8 +2,7 @@ param(
    [Parameter(Mandatory = $true)]
    [string] $Version,
 
-   [Parameter(Mandatory = $true)]
-   [string] $SourceDirectory,
+   [string] $SourceDirectory = "",
 
    [string] $ReleaseTimestamp =
       [DateTime]::UtcNow.ToString("yyyyMMddHHmmss")
@@ -16,6 +15,9 @@ if ($Version -notmatch '^\d+\.\d+\.\d+$') {
 }
 
 $repositoryRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+if ([String]::IsNullOrWhiteSpace($SourceDirectory)) {
+   $SourceDirectory = Join-Path $repositoryRoot "source\RcAstro"
+}
 $sourceRoot = [IO.Path]::GetFullPath($SourceDirectory)
 $buildRoot = Join-Path $repositoryRoot "build"
 $stageRoot = Join-Path $buildRoot "stage"

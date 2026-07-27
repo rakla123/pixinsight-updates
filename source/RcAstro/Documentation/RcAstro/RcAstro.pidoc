@@ -1,0 +1,181 @@
+%% RcAstro.pidoc
+%% PIDoc source for the FlapAstro RC-Astro CLI wrapper.
+
+\documentclass PIScriptDoc
+
+\script { RC-Astro CLI Wrapper }
+
+\keywords
+{
+   RC-Astro, BlurXTerminator, StarXTerminator, NoiseXTerminator, PixInsight, deconvolution, star removal, noise reduction
+}
+
+\author
+{
+   FlapAstro
+}
+
+\copyright
+{
+   Copyright (c) 2026 FlapAstro. PolyForm Noncommercial License 1.0.0.
+}
+
+\brief
+{
+   Version 1.0.0. A PixInsight V8 graphical wrapper for the stand-alone
+   RC-Astro command-line tools.
+}
+
+\description
+{
+   RC-Astro CLI Wrapper provides a PixInsight graphical interface for the
+   stand-alone BlurXTerminator, StarXTerminator, and NoiseXTerminator
+   command-line tools. It can process the active PixInsight view or image files
+   selected manually. The documentation button beside the Preferences button
+   opens this bundled compiler-generated PIDoc page.
+
+   \subsection { Requirements }
+   {
+      PixInsight 1.9.4 or newer with the V8 JavaScript runtime is required.
+      RC-Astro CLI version 1.0.0 or newer is required. This release has been
+      tested with RC-Astro CLI version 1.1.0.
+   }
+
+   \subsection { Startup checks }
+   {
+      At startup, the script locates the configured RC-Astro executable and
+      reads its machine-readable catalog with \c {rc-astro --json}. Versions
+      older than 1.0.0 are rejected. Versions newer than 1.1.0 generate a
+      warning because they were not available when this wrapper was tested.
+      When the check succeeds, the main status area displays Ready together
+      with the installed CLI version and executable path.
+   }
+
+   \subsection { Processing modes }
+   {
+      \list
+      {
+         {
+            \s {Active PixInsight view} saves a temporary XISF copy of the
+            selected view, runs RC-Astro, and opens the result as a new image.
+         }
+         {
+            \s {Manual file} processes an input file and writes to the selected
+            output path.
+         }
+      }
+
+      The triangular New Instance button at the lower left creates a standard
+      PixInsight process icon containing the current RC-Astro processing
+      settings. Drag or click the icon onto a view to reuse those settings.
+      Active-view instances obtain their image from the target or active view;
+      manual-file instances also retain their input, output, and log paths.
+      Machine-specific executable and temporary-directory preferences, detected
+      CLI status, progress, and other transient run-time state are deliberately
+      excluded. Configure machine-specific paths with the Preferences button on
+      each computer.
+
+      When a result is opened, the wrapper copies the exact screen transfer
+      function (STF) of the input view. A nonidentity STF is retained for the
+      usual linear-image workflow, while an identity STF remains identity for
+      an already stretched nonlinear image, avoiding an unintended second
+      stretch. This changes display only and never modifies output pixels.
+      In manual-file mode the STF can be copied only when the selected input
+      file is already open in PixInsight; otherwise the result opens with its
+      default identity STF. The same rule is applied to an optional
+      StarXTerminator stars-only output.
+   }
+
+   \subsection { BlurXTerminator }
+   {
+      Automatic nonstellar PSF is the normal mode. BlurXTerminator estimates
+      the PSF from stars and can correct optical aberrations in nonstellar
+      features.
+
+      For starless, lunar, or planetary images, disable automatic nonstellar
+      PSF and set the nonstellar diameter to the expected stellar FWHM in
+      pixels. Manual mode assumes a round PSF and cannot correct optical
+      aberrations.
+
+      This wrapper uses the RC-Astro 1.0.0 and later parameters
+      \c {--auto-nonstellar-psf} and \c {--nonstellar-diameter}. The obsolete
+      radius parameters are not used.
+   }
+
+   \subsection { StarXTerminator }
+   {
+      The StarXTerminator panel provides optional stars-image output and
+      unscreened-stars controls in addition to the common RC-Astro options.
+   }
+
+   \subsection { NoiseXTerminator }
+   {
+      The NoiseXTerminator panel provides controls for luminance and color
+      denoising, frequency scale, and iterations. The newer ML3 model produces
+      the same result with improved execution speed on Windows and Linux. The
+      macOS NoiseXTerminator ML3 model was not updated with this optimization.
+   }
+
+   \subsection { Progress and cancellation }
+   {
+      RC-Astro output is monitored while processing. A job is stopped if the
+      process produces no new output for 55 minutes. The total processing time
+      is otherwise not limited. Closing the dialog during processing requests
+      cancellation. Completion and failure details are shown in the main
+      status area and written to the PixInsight console; successful completion
+      does not display a modal popup.
+   }
+
+   \subsection { Troubleshooting }
+   {
+      \list
+      {
+         {
+            \s {CLI not found:} Open Preferences and select the installed
+            \c {rc-astro} executable.
+         }
+         {
+            \s {Version check failed:} Run \c {rc-astro --json} in a terminal
+            and verify that it returns a \c {cliVersion}.
+         }
+         {
+            \s {Exit code 77:} The selected RC-Astro product is not licensed on
+            this computer.
+         }
+         {
+            \s {Missing output:} Inspect the full log and verify that the output
+            directory is writable.
+         }
+      }
+   }
+
+   \subsection { License and warranty }
+   {
+      The FlapAstro wrapper is licensed under the PolyForm Noncommercial
+      License 1.0.0.
+
+      \warning
+      {
+         This software is provided "AS IS", without warranty of any kind,
+         including fitness for a particular purpose. Use is entirely at the
+         user's sole risk and responsibility.
+      }
+   }
+}
+
+\acknowledgments
+{
+   This software was developed with assistance from OpenAI Codex. The resulting
+   code was reviewed, tested, and is maintained under the responsibility of
+   FlapAstro.
+
+   RC-Astro CLI, BlurXTerminator, StarXTerminator, and NoiseXTerminator are
+   proprietary software of RC Astro, LLC. PixInsight and the PixInsight
+   JavaScript Runtime are software of Pleiades Astrophoto S.L. These products
+   remain subject to their respective separate licenses and are not included
+   with this wrapper. All product names and trademarks belong to their
+   respective owners. This independent wrapper is not endorsed by either
+   company.
+}
+
+\make
