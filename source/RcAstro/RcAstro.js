@@ -57,7 +57,7 @@ CoreApplication.ensureMinimumVersion( 1, 9, 4 );
 
 var RCASTRO_MINIMUM_VERSION = [ 1, 0, 0 ];
 var RCASTRO_TESTED_VERSION = [ 1, 1, 0 ];
-var RCASTRO_WRAPPER_VERSION = "1.0.1";
+var RCASTRO_WRAPPER_VERSION = "0.9.0";
 var rcAstroVersionCache = {};
 var RCASTRO_SCRIPT_DIRECTORY =
    File.extractDrive( #__FILE__ ) + File.extractDirectory( #__FILE__ );

@@ -36,7 +36,7 @@ Until PixInsight approves and distributes the `FlapAstro` developer
 certificate, releases are intentionally unsigned. Users must allow unsigned
 scripts in PixInsight. Build these interim releases with:
 
-`.\release.ps1 -Version 1.0.1 -Unsigned`
+`.\release.ps1 -Version 0.9.0 -Unsigned`
 
 Production releases must contain `RcAstro.xsgn`, and `updates.xri` must be
 signed with PixInsight's **Script > Development > CodeSign** utility using the
@@ -51,7 +51,7 @@ Signing is intentionally a two-stage operation:
    empty. CodeSign creates `source/RcAstro/RcAstro.xsgn`.
 3. Build a new release package and unsigned manifest:
 
-   `.\release.ps1 -Version 1.0.1`
+   `.\release.ps1 -Version 0.9.0`
 
 4. In CodeSign, sign `updates.xri`. This adds the XML signature in place and
    must be the final modification to that file.
