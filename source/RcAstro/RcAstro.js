@@ -11,7 +11,7 @@
 // kind, including fitness for a particular purpose. Use is entirely at the
 // user's sole risk and responsibility.
 // Licensed under the PolyForm Noncommercial License 1.0.0.
-// Compatible with RC-Astro CLI 1.0.0+; tested with CLI 1.1.0.
+// Compatible with RC-Astro CLI 1.0.0+; tested with CLI 1.1.3.
 //
 // Third-party software:
 // RC-Astro CLI, BlurXTerminator, StarXTerminator, and NoiseXTerminator are
@@ -56,8 +56,8 @@
 CoreApplication.ensureMinimumVersion( 1, 9, 4 );
 
 var RCASTRO_MINIMUM_VERSION = [ 1, 0, 0 ];
-var RCASTRO_TESTED_VERSION = [ 1, 1, 0 ];
-var RCASTRO_WRAPPER_VERSION = "0.9.0";
+var RCASTRO_TESTED_VERSION = [ 1, 1, 3 ];
+var RCASTRO_WRAPPER_VERSION = "0.9.1";
 var rcAstroVersionCache = {};
 var RCASTRO_SCRIPT_DIRECTORY =
    File.extractDrive( #__FILE__ ) + File.extractDirectory( #__FILE__ );
