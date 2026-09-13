@@ -22,7 +22,7 @@ manifest or script signed before that happens is rejected with:
 Until `lscpd` lists `FlapAstro`, build explicitly in unsigned mode:
 
 ```powershell
-.\release.ps1 -Version 0.9.0 -Unsigned
+.\release.ps1 -Version 0.10.0 -Unsigned
 ```
 
 This mode deliberately excludes `RcAstro.xsgn` and generates an unsigned
@@ -48,7 +48,7 @@ signature.
 From the repository root, run:
 
 ```powershell
-.\release.ps1 -Version 0.9.0
+.\release.ps1 -Version 0.10.0
 ```
 
 The release script includes `RcAstro.xsgn` in the ZIP, calculates the package

@@ -57,7 +57,7 @@ CoreApplication.ensureMinimumVersion( 1, 9, 4 );
 
 var RCASTRO_MINIMUM_VERSION = [ 1, 0, 0 ];
 var RCASTRO_TESTED_VERSION = [ 1, 1, 3 ];
-var RCASTRO_WRAPPER_VERSION = "0.9.1";
+var RCASTRO_WRAPPER_VERSION = "0.10.0";
 var rcAstroVersionCache = {};
 var RCASTRO_SCRIPT_DIRECTORY =
    File.extractDrive( #__FILE__ ) + File.extractDirectory( #__FILE__ );
@@ -374,7 +374,19 @@ function settingsReadBoolean( key, fallback )
    {
       var value = Settings.read( key, DataType.Boolean );
       if ( value != null )
+      {
+         if ( typeof value == "boolean" )
+            return value;
+
+         var text = trimString( String( value ) ).toLowerCase();
+         if ( text == "true" || text == "1" || text == "yes" || text == "on" )
+            return true;
+
+         if ( text == "false" || text == "0" || text == "no" || text == "off" )
+            return false;
+
          return Boolean( value );
+      }
    }
    catch ( ignored )
    {
@@ -3014,7 +3026,7 @@ var RunRCAstroDialog = class extends Dialog
          var hadLiveProgress = false;
          var gpuUsed = "";
          var toolInfo = "";
-         var maxSilentSeconds = 3300;
+         var maxSilentSeconds = 300;
          // This is an inactivity timeout, not a total processing limit. Long
          // runs may exceed it as long as RC-Astro continues producing output.
          var lastOutputChangeTime = startTime;
