@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+PixInsight XML Code Signature Format - XSGN version 1.0
+Created with PixInsight software - https://pixinsight.com/
+-->
+<xsgn version="1.0" xmlns="http://www.pixinsight.com/xsgn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.pixinsight.com/xsgn http://pixinsight.com/xsgn/xsgn-1.0.xsd">
+   <CreationTime>2026-09-13T20:22:11.817Z</CreationTime>
+   <Signature version="1.0" scriptId="RCAstroCLIWrapper" developerId="FlapAstro">
+      <Timestamp>2026-09-13T20:22:11.816Z</Timestamp>
+      <CodeSignature encoding="Base64">ftBMjU0s4+g+l10MR1D4TFfyAIuGrKpubRxsYfS0ECx2FU5/SALi1STkofyvtaVcllfOap7AhAQuvQKumEuVBg==</CodeSignature>
+   </Signature>
+</xsgn>
