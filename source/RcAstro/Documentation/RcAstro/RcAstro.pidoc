@@ -22,7 +22,7 @@
 
 \brief
 {
-   Version 0.9.0 (beta). A PixInsight V8 graphical wrapper for the stand-alone
+   Version 0.10.1. A PixInsight V8 graphical wrapper for the stand-alone
    RC-Astro command-line tools.
 }
 
@@ -36,16 +36,16 @@
 
    \subsection { Requirements }
    {
-      PixInsight 1.9.4 or newer with the V8 JavaScript runtime is required.
+      PixInsight 1.9.5 or newer with the V8 JavaScript runtime is required.
       RC-Astro CLI version 1.0.0 or newer is required. This release has been
-      tested with RC-Astro CLI version 1.1.0.
+      tested with RC-Astro CLI version 1.1.3.
    }
 
    \subsection { Startup checks }
    {
       At startup, the script locates the configured RC-Astro executable and
       reads its machine-readable catalog with \c {rc-astro --json}. Versions
-      older than 1.0.0 are rejected. Versions newer than 1.1.0 generate a
+      older than 1.0.0 are rejected. Versions newer than 1.1.3 generate a
       warning because they were not available when this wrapper was tested.
       When the check succeeds, the main status area displays Ready together
       with the installed CLI version and executable path.

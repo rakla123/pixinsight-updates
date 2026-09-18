@@ -2,6 +2,8 @@ param(
    [Parameter(Mandatory = $true)]
    [string] $Version,
 
+   [string] $PixInsightVersionRange = "1.9.5:1.9.99",
+
    [string] $SourceDirectory = "",
 
    [string] $ReleaseTimestamp =
@@ -14,6 +16,10 @@ $ErrorActionPreference = "Stop"
 
 if ($Version -notmatch '^\d+\.\d+\.\d+$') {
    throw "Version must use semantic form, for example 1.0.0."
+}
+
+if ($PixInsightVersionRange -notmatch '^\d+\.\d+\.\d+:\d+\.\d+\.\d+$') {
+   throw "PixInsightVersionRange must use the form 1.9.5:1.9.99."
 }
 
 $repositoryRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -82,8 +88,8 @@ foreach ($name in @(
 $signaturePath = Join-Path $sourceRoot "RcAstro.xsgn"
 if ($Unsigned) {
    Write-Warning (
-      "Building an unsigned package. Use this only until the FlapAstro " +
-      "identity is listed by lscpd."
+      "Building an unsigned test package. Do not publish it as a " +
+      "production release."
    )
 }
 elseif (Test-Path -LiteralPath $signaturePath -PathType Leaf) {
@@ -143,7 +149,7 @@ $manifest = @"
    <description>
       <p>FlapAstro scripts for PixInsight.</p>
    </description>
-   <platform os="all" arch="noarch" version="1.9.4:1.9.99">
+   <platform os="all" arch="noarch" version="$PixInsightVersionRange">
       <package fileName="packages/$packageName" sha1="$sha1" type="script" releaseDate="$ReleaseTimestamp">
          <title>RC-Astro CLI Wrapper $Version</title>
          <description>
@@ -157,7 +163,7 @@ $manifest = @"
 
 [IO.File]::WriteAllText(
    $manifestPath,
-   $manifest,
+   $manifest.Replace("`r`n", "`n"),
    (New-Object Text.UTF8Encoding($false))
 )
 
@@ -167,8 +173,8 @@ Write-Host "Manifest: $manifestPath"
 Write-Host ""
 if ($Unsigned) {
    Write-Warning (
-      "Publish updates.xri without signing it. Users must allow unsigned " +
-      "scripts in PixInsight."
+      "This test manifest is unsigned. Rebuild without -Unsigned and sign " +
+      "updates.xri before publishing."
    )
 }
 else {

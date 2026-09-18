@@ -45,11 +45,13 @@ To integrate the page into the central PixInsight documentation system:
 The compiler installs the generated page as
 `doc/scripts/RC-Astro CLI Wrapper/RC-Astro CLI Wrapper.html`.
 
-The script requires PixInsight 1.9.4 or newer with the V8 runtime and RC-Astro CLI 1.0.0 or newer.
+The script requires PixInsight 1.9.5 or newer with the V8 runtime and RC-Astro CLI 1.0.0 or newer.
+Temporary active-view XISF files preserve storable image properties, the native
+1.9.5 astrometric solution, FITS keywords, resolution, and RGB working space.
 
 On startup, the script checks the configured RC-Astro executable and reads its
 version from `rc-astro --json`. Versions older than 1.0.0 are rejected. Versions
-newer than the script's tested version (1.1.0) generate a colored warning in the
+newer than the script's tested version (1.1.3) generate a colored warning in the
 PixInsight console.
 
 Processing has no fixed total-duration limit. A job is stopped only if RC-Astro

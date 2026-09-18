@@ -11,23 +11,15 @@ Open PixInsight's Process Console and run:
 
 Continue only when `FlapAstro` appears in the certified developer list.
 
-Submitting a CPD request does not immediately certify the identity. PixInsight
-must approve and distribute the corresponding developer certificate. A
-manifest or script signed before that happens is rejected with:
-
-`Unknown code signing identity 'FlapAstro'`
-
-## Interim unsigned release
-
-Until `lscpd` lists `FlapAstro`, build explicitly in unsigned mode:
+The `FlapAstro` signing authority has been approved. Use unsigned builds only
+for local package testing:
 
 ```powershell
-.\release.ps1 -Version 0.10.0 -Unsigned
+.\release.ps1 -Version 0.10.1 -Unsigned
 ```
 
 This mode deliberately excludes `RcAstro.xsgn` and generates an unsigned
-`updates.xri`. Do not run CodeSign on either file. Users must enable the
-execution of unsigned scripts in PixInsight for this interim package.
+`updates.xri`. Do not publish this package as a production release.
 
 ## 1. Sign the script
 
@@ -48,7 +40,7 @@ signature.
 From the repository root, run:
 
 ```powershell
-.\release.ps1 -Version 0.10.0
+.\release.ps1 -Version 0.10.1
 ```
 
 The release script includes `RcAstro.xsgn` in the ZIP, calculates the package

@@ -53,11 +53,11 @@
 //   5. Dialog construction, persistence, and process-instance support.
 //   6. The run pipeline: prepare, launch, monitor, open results, clean up.
 
-CoreApplication.ensureMinimumVersion( 1, 9, 4 );
+CoreApplication.ensureMinimumVersion( 1, 9, 5 );
 
 var RCASTRO_MINIMUM_VERSION = [ 1, 0, 0 ];
 var RCASTRO_TESTED_VERSION = [ 1, 1, 3 ];
-var RCASTRO_WRAPPER_VERSION = "0.10.0";
+var RCASTRO_WRAPPER_VERSION = "0.10.1";
 var rcAstroVersionCache = {};
 var RCASTRO_SCRIPT_DIRECTORY =
    File.extractDrive( #__FILE__ ) + File.extractDirectory( #__FILE__ );
@@ -778,6 +778,7 @@ function getTargetView()
 function saveViewToXISF( view, path )
 {
    var tmpWindow = null;
+   var processStarted = false;
 
    try
    {
@@ -804,9 +805,53 @@ function saveViewToXISF( view, path )
       if ( tmpWindow.isNull )
          throw new Error( "Could not create a temporary copy of the active image window." );
 
-      tmpWindow.mainView.beginProcess();
+      // File I/O is already parallelized by the PixInsight core. Avoid an
+      // unnecessary swap file while copying the pixels into this disposable
+      // window, then preserve the metadata that XISF can serialize natively.
+      tmpWindow.mainView.beginProcess( UndoFlag.NoSwapFile );
+      processStarted = true;
       tmpWindow.mainView.image.assign( sourceImage );
+
+      var propertyIds = view.properties;
+      for ( var i = 0; i < propertyIds.length; ++i )
+      {
+         var propertyId = propertyIds[i];
+         var attributes = view.propertyAttributes( propertyId );
+
+         if ( (attributes & PropertyAttribute.Storable) == 0 )
+            continue;
+
+         try
+         {
+            tmpWindow.mainView.setPropertyValue(
+               propertyId,
+               view.propertyValue( propertyId ),
+               view.propertyType( propertyId ),
+               attributes
+            );
+         }
+         catch ( ignoredProperty )
+         {
+            // Reserved properties, including astrometric data, are managed by
+            // the core and cannot be assigned individually by scripts.
+         }
+      }
+
       tmpWindow.mainView.endProcess();
+      processStarted = false;
+
+      tmpWindow.keywords = sourceWindow.keywords;
+      tmpWindow.rgbWorkingSpace = sourceWindow.rgbWorkingSpace;
+      tmpWindow.setResolution(
+         sourceWindow.xResolution,
+         sourceWindow.yResolution,
+         sourceWindow.metricResolution
+      );
+
+      if ( sourceWindow.hasAstrometricSolution &&
+           sourceImage.width == sourceWindow.mainView.image.width &&
+           sourceImage.height == sourceWindow.mainView.image.height )
+         tmpWindow.copyAstrometricSolution( sourceWindow );
 
       tmpWindow.saveAs( path, false, false, false, false );
 
@@ -822,6 +867,17 @@ function saveViewToXISF( view, path )
    }
    catch ( e )
    {
+      if ( processStarted )
+      {
+         try
+         {
+            tmpWindow.mainView.endProcess();
+         }
+         catch ( ignoredEndProcess )
+         {
+         }
+      }
+
       try
       {
          if ( tmpWindow && !tmpWindow.isNull )

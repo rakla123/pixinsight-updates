@@ -7,7 +7,7 @@ Official PixInsight update repository for the **RC-Astro CLI Wrapper**.
 1. In PixInsight, open **Resources > Updates > Manage Repositories**.
 2. Add this repository URL:
 
-   `https://rakla123.github.io/pixinsight-updates/`
+   `https://raw.githubusercontent.com/rakla123/pixinsight-updates/main/`
 
 3. Run **Resources > Updates > Check for Updates**.
 4. Apply the available update and restart PixInsight.
@@ -20,8 +20,12 @@ avoid duplicate script identifiers.
 
 ## Requirements
 
-- PixInsight 1.9.4 or newer
+- PixInsight 1.9.5 or newer (V8 runtime)
 - RC-Astro CLI 1.0.0 or newer
+
+Active-view inputs are serialized as temporary XISF files. The wrapper
+preserves storable view properties, PixInsight 1.9.5 astrometric solutions,
+FITS keywords, image resolution, and the RGB working space.
 
 ## Package contents
 
@@ -32,13 +36,12 @@ avoid duplicate script identifiers.
 
 ## Signing
 
-Until PixInsight approves and distributes the `FlapAstro` developer
-certificate, releases are intentionally unsigned. Users must allow unsigned
-scripts in PixInsight. Build these interim releases with:
+The `FlapAstro` signing authority is approved. Production releases must be
+signed. The `-Unsigned` switch is reserved for local test builds:
 
-`.\release.ps1 -Version 0.10.0 -Unsigned`
+`.\release.ps1 -Version 0.10.1 -Unsigned`
 
-Production releases must contain `RcAstro.xsgn`, and `updates.xri` must be
+Production packages must contain `RcAstro.xsgn`, and `updates.xri` must be
 signed with PixInsight's **Script > Development > CodeSign** utility using the
 certified FlapAstro signing identity.
 
@@ -51,7 +54,7 @@ Signing is intentionally a two-stage operation:
    empty. CodeSign creates `source/RcAstro/RcAstro.xsgn`.
 3. Build a new release package and unsigned manifest:
 
-   `.\release.ps1 -Version 0.10.0`
+   `.\release.ps1 -Version 0.10.1`
 
 4. In CodeSign, sign `updates.xri`. This adds the XML signature in place and
    must be the final modification to that file.
