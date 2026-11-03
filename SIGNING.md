@@ -65,3 +65,24 @@ Before committing:
 
 Commit the new package, signed manifest, source signature, and any intentional
 source changes together.
+
+## CPD status and release requirements
+
+The current wrapper exports images and launches the standalone RC-Astro CLI to process them. This architecture conflicts with CPD rule 5.8 unless PTeam grants a written exception under rule 5.6. No such exception has been verified for this documentation update. A valid CPD signature identifies the signer and protects integrity; it does not establish product approval or compliance. Documentation changes do not resolve this architectural limitation.
+
+CPD rules version 1.0.2 were published on October 29, 2026, with an effective date of December 12, 2026. Rule 10.2 gives existing CPDs 60 days from notification to comply; the applicable notification date must be checked separately.
+
+See the [CPD program rules](https://pixinsight.com/security/cpd-rules/). Continued CPD distribution requires resolving the architecture through a written exception or a redesign that implements processing on the PixInsight platform. User selection of the CLI under rule 5.3 does not override rule 5.8.
+
+## Documentation-only changes and existing releases
+
+Editing source documentation does not update an already published ZIP or its
+manifest. Do not replace an archive in place or hand-edit a signed manifest.
+After the CPD architecture and third-party behaviour requirements are resolved,
+regenerate the HTML using DocumentationCompiler, review it against the PIDoc
+source and code, build a new versioned package, calculate its hash, and sign the
+new manifest through the normal release process.
+
+If RcAstro.js is unchanged, preserve its existing signature; any change to that
+script requires a new signature. Do not claim that signing alone resolves the
+rule 5.8 restriction. This documentation revision is not a new signed release.

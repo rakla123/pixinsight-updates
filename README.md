@@ -1,6 +1,17 @@
 # FlapAstro PixInsight Updates
 
-Official PixInsight update repository for the **RC-Astro CLI Wrapper**.
+FlapAstro's update repository for the **RC-Astro CLI Wrapper** for PixInsight.
+
+This is an independent product, not endorsed or supported by Pleiades Astrophoto S.L. or RC Astro, LLC.
+
+
+## CPD status and release requirements
+
+The current wrapper exports images and launches the standalone RC-Astro CLI to process them. This architecture conflicts with CPD rule 5.8 unless PTeam grants a written exception under rule 5.6. No such exception has been verified for this documentation update. A valid CPD signature identifies the signer and protects integrity; it does not establish product approval or compliance. Documentation changes do not resolve this architectural limitation.
+
+CPD rules version 1.0.2 were published on October 29, 2026, with an effective date of December 12, 2026. Rule 10.2 gives existing CPDs 60 days from notification to comply; the applicable notification date must be checked separately.
+
+See the [CPD program rules](https://pixinsight.com/security/cpd-rules/). Continued CPD distribution requires resolving the architecture through a written exception or a redesign that implements processing on the PixInsight platform. User selection of the CLI under rule 5.3 does not override rule 5.8.
 
 ## Installation
 
@@ -26,6 +37,10 @@ avoid duplicate script identifiers.
 Active-view inputs are serialized as temporary XISF files. The wrapper
 preserves storable view properties, PixInsight 1.9.5 astrometric solutions,
 FITS keywords, image resolution, and the RGB working space.
+
+## Runtime behaviour
+
+See [execution, storage, retention, and network limitations](source/RcAstro/INSTALL.md#execution-and-user-choice) before use.
 
 ## Package contents
 
