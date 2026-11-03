@@ -4,8 +4,8 @@
       <p>FlapAstro scripts for PixInsight.</p>
    </description>
    <platform os="all" arch="noarch" version="1.9.5:1.9.99">
-      <package fileName="packages/RC-Astro-CLI-Wrapper-0.10.1-20260918190000.zip" sha1="b0b35bb36e965423398103e070615ec512dede3b" type="script" releaseDate="20260918190000">
-         <title>RC-Astro CLI Wrapper 0.10.1</title>
+      <package fileName="packages/RC-Astro-CLI-Wrapper-0.10.2-20261103211126.zip" sha1="8b3a6f16ed79ba9255c9c4da0de6850a2e5aae7d" type="script" releaseDate="20261103211126">
+         <title>RC-Astro CLI Wrapper 0.10.2</title>
          <description>
             <p>PixInsight graphical interface for BlurXTerminator, StarXTerminator, and NoiseXTerminator through the stand-alone RC-Astro CLI.</p>
             <p>Requires RC-Astro CLI version 1.0.0 or newer.</p>
@@ -13,4 +13,4 @@
       </package>
    </platform>
 </xri>
-<Signature developerId="FlapAstro" timestamp="2026-09-18T19:14:55.519Z" encoding="Base64">sWdCwkTJ32sNMybfJCtgCyDCGYvfbtRGY9Ere6qFO+sYzUGXkrQxonVJ5NmcmIPQG9Jtq+tpwxdFufafo5KcDQ==</Signature>
+<Signature developerId="FlapAstro" timestamp="2026-11-03T21:13:51.459Z" encoding="Base64">sUBUgpiD1KRGKzD2MtiUku70WbLOs4ytCGPnmC/xi3NS/bdribRqOyWi+TAzuvTjoS1XKwVCSuppZhRpm5RWAw==</Signature>

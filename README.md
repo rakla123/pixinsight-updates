@@ -54,7 +54,7 @@ See [execution, storage, retention, and network limitations](source/RcAstro/INST
 The `FlapAstro` signing authority is approved. Production releases must be
 signed. The `-Unsigned` switch is reserved for local test builds:
 
-`.\release.ps1 -Version 0.10.1 -Unsigned`
+`.\release.ps1 -Version 0.10.2 -Unsigned`
 
 Production packages must contain `RcAstro.xsgn`, and `updates.xri` must be
 signed with PixInsight's **Script > Development > CodeSign** utility using the
@@ -69,7 +69,7 @@ Signing is intentionally a two-stage operation:
    empty. CodeSign creates `source/RcAstro/RcAstro.xsgn`.
 3. Build a new release package and unsigned manifest:
 
-   `.\release.ps1 -Version 0.10.1`
+   `.\release.ps1 -Version 0.10.2`
 
 4. In CodeSign, sign `updates.xri`. This adds the XML signature in place and
    must be the final modification to that file.

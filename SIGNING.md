@@ -15,7 +15,7 @@ The `FlapAstro` signing authority has been approved. Use unsigned builds only
 for local package testing:
 
 ```powershell
-.\release.ps1 -Version 0.10.1 -Unsigned
+.\release.ps1 -Version 0.10.2 -Unsigned
 ```
 
 This mode deliberately excludes `RcAstro.xsgn` and generates an unsigned
@@ -40,7 +40,7 @@ signature.
 From the repository root, run:
 
 ```powershell
-.\release.ps1 -Version 0.10.1
+.\release.ps1 -Version 0.10.2
 ```
 
 The release script includes `RcAstro.xsgn` in the ZIP, calculates the package
@@ -85,4 +85,4 @@ new manifest through the normal release process.
 
 If RcAstro.js is unchanged, preserve its existing signature; any change to that
 script requires a new signature. Do not claim that signing alone resolves the
-rule 5.8 restriction. This documentation revision is not a new signed release.
+rule 5.8 restriction. Version 0.10.2 packages the corrected documentation; processing behaviour is unchanged.

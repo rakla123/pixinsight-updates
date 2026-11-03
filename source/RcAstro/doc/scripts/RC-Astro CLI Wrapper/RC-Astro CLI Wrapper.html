@@ -5,9 +5,9 @@
    <title>PixInsight Reference Documentation | RC-Astro CLI Wrapper</title>
    <meta name="keywords" content="RC-Astro, BlurXTerminator, StarXTerminator, NoiseXTerminator, PixInsight, deconvolution, star removal, noise reduction" />
    <meta name="author" content="FlapAstro" />
-   <meta name="description" content="Version 0.10.1. A PixInsight V8 graphical wrapper for the stand-alone RC-Astro command-line tools." />
+   <meta name="description" content="Version 0.10.2. A PixInsight V8 graphical wrapper for the stand-alone RC-Astro command-line tools." />
    <meta name="robots" content="INDEX,FOLLOW" />
-   <meta name="generator" content="PixInsight Documentation Compiler script version 1.7.3" />
+   <meta name="generator" content="PixInsight Documentation Compiler script version 1.8.1" />
    <meta name="pidoc-document-class" content="PIScriptDoc" />
    <script type="text/javascript" src="../../pidoc/scripts/pidoc-utility.js"></script>
    <link type="text/css" href="../../pidoc/css/pidoc-common.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
 <hr class="separator"/>
 
 <div id="brief">
-<p>Version 0.10.1. A PixInsight V8 graphical wrapper for the stand-alone RC-Astro command-line tools. <a href="#__contents__">[more]</a></p></div>
+<p>Version 0.10.2. A PixInsight V8 graphical wrapper for the stand-alone RC-Astro command-line tools. <a href="#__contents__">[more]</a></p></div>
 
 <div id="keywords">
 <p><strong>Keywords:</strong> RC-Astro, BlurXTerminator, StarXTerminator, NoiseXTerminator, PixInsight, deconvolution, star removal, noise reduction</p>
@@ -49,14 +49,14 @@
 <li class="pidoc_tocSubitem"><a href="#__Description_:_NoiseXTerminator__">1.6&emsp;NoiseXTerminator</a></li>
 <li class="pidoc_tocSubitem"><a href="#__Description_:_Progress_and_cancellation__">1.7&emsp;Progress and cancellation</a></li>
 <li class="pidoc_tocSubitem"><a href="#__Description_:_Troubleshooting__">1.8&emsp;Troubleshooting</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_0__">CPD status and release requirements</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_1__">Execution and user choice</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_2__">Files and storage</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_3__">Retention and overwrite</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_4__">Logs and preferences</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_5__">Result opening</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Runtime_6__">Network and third-party behaviour</a></li>
-<li class="pidoc_tocSubitem"><a href="#__Description_:_License_and_warranty__">1.9&emsp;License and warranty</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_CPD_status_and_release_requirements__">1.9&emsp;CPD status and release requirements</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Execution_and_user_choice__">1.10&emsp;Execution and user choice</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Files_and_storage__">1.11&emsp;Files and storage</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Retention_and_overwrite__">1.12&emsp;Retention and overwrite</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Logs_and_preferences__">1.13&emsp;Logs and preferences</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Result_opening__">1.14&emsp;Result opening</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_Network_and_thirdparty_behaviour__">1.15&emsp;Network and third-party behaviour</a></li>
+<li class="pidoc_tocSubitem"><a href="#__Description_:_License_and_warranty__">1.16&emsp;License and warranty</a></li>
 </ul>
 </li>
 <li class="pidoc_tocItem"><a href="#__Acknowledgments__">2&emsp;Acknowledgments</a></li>
@@ -77,7 +77,7 @@
 
 <div class="pidoc_subsection" id="__Description_:_Startup_checks__">
    <h4 class="pidoc_subsectionTitle">1.2&emsp;Startup checks</h4>
-<p>At startup, the script locates the configured RC-Astro executable and reads its machine-readable catalog with <span class="pidoc_code">rc-astro &ndash;json</span>. Versions older than 1.0.0 are rejected. Versions newer than 1.1.3 generate a warning because they were not available when this wrapper was tested. When the check succeeds, the main status area displays Ready together with the installed CLI version and executable path.</p>
+<p>At startup, the script locates the configured RC-Astro executable and reads its machine-readable catalog with <span class="pidoc_code">rc-astro --json</span>. Versions older than 1.0.0 are rejected. Versions newer than 1.1.3 generate a warning because they were not available when this wrapper was tested. When the check succeeds, the main status area displays Ready together with the installed CLI version and executable path.</p>
 </div>
 
 <div class="pidoc_subsection" id="__Description_:_Processing_modes__">
@@ -96,7 +96,7 @@
    <h4 class="pidoc_subsectionTitle">1.4&emsp;BlurXTerminator</h4>
 <p>Automatic nonstellar PSF is the normal mode. BlurXTerminator estimates the PSF from stars and can correct optical aberrations in nonstellar features.</p>
 <p>For starless, lunar, or planetary images, disable automatic nonstellar PSF and set the nonstellar diameter to the expected stellar FWHM in pixels. Manual mode assumes a round PSF and cannot correct optical aberrations.</p>
-<p>This wrapper uses the RC-Astro 1.0.0 and later parameters <span class="pidoc_code">&ndash;auto-nonstellar-psf</span> and <span class="pidoc_code">&ndash;nonstellar-diameter</span>. The obsolete radius parameters are not used.</p>
+<p>This wrapper uses the RC-Astro 1.0.0 and later parameters <span class="pidoc_code">--auto-nonstellar-psf</span> and <span class="pidoc_code">--nonstellar-diameter</span>. The obsolete radius parameters are not used.</p>
 </div>
 
 <div class="pidoc_subsection" id="__Description_:_StarXTerminator__">
@@ -119,51 +119,52 @@
 
 <ul class="pidoc_list">
 <li><strong>CLI not found:</strong> Open Preferences and select the installed <span class="pidoc_code">rc-astro</span> executable.</li>
-<li><strong>Version check failed:</strong> Run <span class="pidoc_code">rc-astro &ndash;json</span> in a terminal and verify that it returns a <span class="pidoc_code">cliVersion</span>.</li>
+<li><strong>Version check failed:</strong> Run <span class="pidoc_code">rc-astro --json</span> in a terminal and verify that it returns a <span class="pidoc_code">cliVersion</span>.</li>
 <li><strong>Exit code 77:</strong> The selected RC-Astro product is not licensed on this computer.</li>
 <li><strong>Missing output:</strong> Inspect the full log and verify that the output directory is writable.</li>
 </ul>
 
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_0__">
-<h4 class="pidoc_subsectionTitle">CPD status and release requirements</h4>
-<p>The current wrapper exports images and launches the standalone RC-Astro CLI to process them. This architecture conflicts with CPD rule 5.8 unless PTeam grants a written exception under rule 5.6. No such exception has been verified for this documentation update. A valid CPD signature identifies the signer and protects integrity; it does not establish product approval or compliance. Documentation changes do not resolve this architectural limitation. CPD rules version 1.0.2 were published on October 29, 2026, with an effective date of December 12, 2026. Rule 10.2 gives existing CPDs 60 days from notification to comply; the applicable notification date must be checked separately.</p>
-<p><a href="https://pixinsight.com/security/cpd-rules/">CPD program rules</a></p>
+<div class="pidoc_subsection" id="__Description_:_CPD_status_and_release_requirements__">
+   <h4 class="pidoc_subsectionTitle">1.9&emsp;CPD status and release requirements</h4>
+<p>The current wrapper exports images and launches the standalone RC-Astro CLI to process them. This architecture conflicts with CPD rule 5.8 unless PTeam grants a written exception under rule 5.6. No such exception has been verified for this documentation update. A valid CPD signature identifies the signer and protects integrity; it does not establish product approval or compliance. Documentation changes do not resolve this architectural limitation.</p>
+<p>CPD rules version 1.0.2 were published on October 29, 2026, with an effective date of December 12, 2026. Rule 10.2 gives existing CPDs 60 days from notification to comply; the applicable notification date must be checked separately.</p>
+<p>Rules: https://pixinsight.com/security/cpd-rules/</p>
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_1__">
-<h4 class="pidoc_subsectionTitle">Execution and user choice</h4>
-<p>The script launches the configured RC-Astro executable with --json at startup, before its main dialog opens, to check compatibility. If no path has been saved, it searches C:/Program Files/RC-Astro/cli/rc-astro.exe, C:/Program Files/RC-Astro/rc-astro.exe, and C:/Program Files (x86)/RC-Astro/cli/rc-astro.exe. Preferences lets the user select another executable; saving a valid selection also probes it. Successful probes are cached for the script session. Processing launches the same executable with the selected bxt, sxt, or nxt command and arguments. The wrapper does not install or license the CLI.</p>
+<div class="pidoc_subsection" id="__Description_:_Execution_and_user_choice__">
+   <h4 class="pidoc_subsectionTitle">1.10&emsp;Execution and user choice</h4>
+<p>The script launches the configured RC-Astro executable with &ndash;json at startup, before its main dialog opens, to check compatibility. If no path has been saved, it searches C:/Program Files/RC-Astro/cli/rc-astro.exe, C:/Program Files/RC-Astro/rc-astro.exe, and C:/Program Files (x86)/RC-Astro/cli/rc-astro.exe. Preferences lets the user select another executable; saving a valid selection also probes it. Successful probes are cached for the script session. Processing launches the same executable with the selected bxt, sxt, or nxt command and arguments. The wrapper does not install or license the CLI.</p>
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_2__">
-<h4 class="pidoc_subsectionTitle">Files and storage</h4>
-<p>The default working directory is the operating-system temporary directory returned by File.systemTempDirectory. The user can change it in Preferences. Active-view mode writes &lt;view-id&gt;_rcastro_input.xisf, &lt;view-id&gt;_BXT.xisf, &lt;view-id&gt;_SXT.xisf, or &lt;view-id&gt;_NXT.xisf, and &lt;view-id&gt;_rcastro_&lt;tool&gt;.log in that directory. The view identifier is sanitized for filenames. Manual-file mode uses the selected input, output, and log paths. StarXTerminator can additionally produce a companion stars image beside its main output.</p>
+<div class="pidoc_subsection" id="__Description_:_Files_and_storage__">
+   <h4 class="pidoc_subsectionTitle">1.11&emsp;Files and storage</h4>
+<p>The default working directory is the operating-system temporary directory returned by File.systemTempDirectory. The user can change it in Preferences. Active-view mode writes VIEW_ID_rcastro_input.xisf, VIEW_ID_BXT.xisf, VIEW_ID_SXT.xisf, or VIEW_ID_NXT.xisf, and VIEW_ID_rcastro_TOOL.log in that directory. The view identifier is sanitized for filenames. Manual-file mode uses the selected input, output, and log paths. StarXTerminator can additionally produce a companion stars image beside its main output.</p>
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_3__">
-<h4 class="pidoc_subsectionTitle">Retention and overwrite</h4>
+<div class="pidoc_subsection" id="__Description_:_Retention_and_overwrite__">
+   <h4 class="pidoc_subsectionTitle">1.12&emsp;Retention and overwrite</h4>
 <p>The temporary active-view input is deleted after completion, failure, or cancellation unless Keep temporary input file is enabled. Outputs and logs are retained; there is no automatic cleanup for them. Temporary filenames are deterministic rather than unique per run. An existing temporary input at the generated path is removed before export. Overwrite is enabled by default; when enabled, existing main outputs and recognized stars-output candidates are removed before processing, so a failed run does not restore them. Use a dedicated working directory and preserve needed outputs before another run.</p>
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_4__">
-<h4 class="pidoc_subsectionTitle">Logs and preferences</h4>
+<div class="pidoc_subsection" id="__Description_:_Logs_and_preferences__">
+   <h4 class="pidoc_subsectionTitle">1.13&emsp;Logs and preferences</h4>
 <p>Logs contain timestamps, executable and image paths, selected command and arguments, processing status, and RC-Astro stdout/stderr. Extra command-line arguments can consequently appear in logs; do not include secrets in them. Preferences are stored through the PJSR Settings interface under RcAstroGUI/. The wrapper does not directly edit PixInsight core settings files. Review logs before sharing them.</p>
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_5__">
-<h4 class="pidoc_subsectionTitle">Result opening</h4>
+<div class="pidoc_subsection" id="__Description_:_Result_opening__">
+   <h4 class="pidoc_subsectionTitle">1.14&emsp;Result opening</h4>
 <p>The Open result option controls opening the main output. When StarXTerminator stars output is requested and a recognized companion file is found, the current code opens that stars image even if Open result is disabled. The wrapper copies the input display STF when available without changing output pixels.</p>
 </div>
 
-<div class="pidoc_subsection" id="__Runtime_6__">
-<h4 class="pidoc_subsectionTitle">Network and third-party behaviour</h4>
+<div class="pidoc_subsection" id="__Description_:_Network_and_thirdparty_behaviour__">
+   <h4 class="pidoc_subsectionTitle">1.15&emsp;Network and third-party behaviour</h4>
 <p>RcAstro.js contains no direct network-transfer or telemetry calls and no executable downloader. This is a source-level statement about the wrapper, not a guarantee about the separately installed RC-Astro CLI. The CLI's network connections, licensing traffic, model downloads, cache locations, and integrity verification have not been verified here. Do not describe the combined product as offline or fully compliant on this basis. Before any release represented as CPD-compliant, verify and document those behaviours for supported CLI versions, including endpoints, purposes, storage locations, secure transport, integrity checks, and any consent requirements.</p>
 </div>
 
 <div class="pidoc_subsection" id="__Description_:_License_and_warranty__">
-   <h4 class="pidoc_subsectionTitle">1.9&emsp;License and warranty</h4>
+   <h4 class="pidoc_subsectionTitle">1.16&emsp;License and warranty</h4>
 <p>The FlapAstro wrapper is licensed under the PolyForm Noncommercial License 1.0.0.</p>
 
 <div class="pidoc_warning">
@@ -190,7 +191,7 @@
 </div>
 
 <div id="footer">
-   <p>Originally generated by PixInsight Documentation Compiler 1.7.3. Runtime and CPD documentation synchronized manually with the PIDoc source on 2026-11-03; regenerate with DocumentationCompiler before packaging a new release.</p>
+   <p>Generated by the PixInsight Documentation Compiler script version 1.8.1 on 2026-11-03 21:07:47 UTC</p>
 </div>
 <br/>
 <br/>
