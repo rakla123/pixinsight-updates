@@ -21,8 +21,8 @@ and are not embedded in process icons.
 
 - `RcAstro.js` is the executable PixInsight script.
 - `RcAstro.svg` is the custom Feature Scripts menu icon.
-- `doc/` contains the compiler-generated runtime documentation and the PIDoc
-  support files required to display it.
+- `doc/` contains the runtime documentation page. Its relative PIDoc assets are
+  supplied by PixInsight's central documentation installation.
 - `Documentation/` contains the editable `.pidoc` source. It is retained for
   maintenance and is not used when opening the bundled help page.
 - `LICENSE.md` and `NOTICE.md` contain the license, warranty disclaimer, and
@@ -31,7 +31,7 @@ and are not embedded in process icons.
 The package includes both the compiler-generated page at
 `doc/scripts/RC-Astro CLI Wrapper/RC-Astro CLI Wrapper.html` and its source at
 `Documentation/RcAstro/RcAstro.pidoc`. The script opens the bundled
-compiler-generated page first. If that page is missing, it queries PixInsight's
+HTML page first. If that page is missing, it queries PixInsight's
 installed documentation system.
 
 To integrate the page into the central PixInsight documentation system:
@@ -55,7 +55,7 @@ newer than the script's tested version (1.1.3) generate a colored warning in the
 PixInsight console.
 
 Processing has no fixed total-duration limit. A job is stopped only if RC-Astro
-produces no new output for 55 minutes. This permits large images and slow CPU
+produces no new output for 5 minutes. This permits large images and slow CPU
 processing to run for more than an hour while still detecting a stalled process.
 
 ## License
@@ -93,3 +93,35 @@ separate Remove button.
 
 To uninstall it from the menu, open **Script > Feature Scripts**, clear the
 RC-Astro entry's checkbox, and click **Done**.
+
+## CPD status and release requirements
+
+The current wrapper exports images and launches the standalone RC-Astro CLI to process them. This architecture conflicts with CPD rule 5.8 unless PTeam grants a written exception under rule 5.6. No such exception has been verified for this documentation update. A valid CPD signature identifies the signer and protects integrity; it does not establish product approval or compliance. Documentation changes do not resolve this architectural limitation.
+
+CPD rules version 1.0.2 were published on October 29, 2026, with an effective date of December 12, 2026. Rule 10.2 gives existing CPDs 60 days from notification to comply; the applicable notification date must be checked separately.
+
+See the [CPD program rules](https://pixinsight.com/security/cpd-rules/). Continued CPD distribution requires resolving the architecture through a written exception or a redesign that implements processing on the PixInsight platform. User selection of the CLI under rule 5.3 does not override rule 5.8.
+
+## Execution and user choice
+
+The script launches the configured RC-Astro executable with --json at startup, before its main dialog opens, to check compatibility. If no path has been saved, it searches C:/Program Files/RC-Astro/cli/rc-astro.exe, C:/Program Files/RC-Astro/rc-astro.exe, and C:/Program Files (x86)/RC-Astro/cli/rc-astro.exe. Preferences lets the user select another executable; saving a valid selection also probes it. Successful probes are cached for the script session. Processing launches the same executable with the selected bxt, sxt, or nxt command and arguments. The wrapper does not install or license the CLI.
+
+## Files and storage
+
+The default working directory is the operating-system temporary directory returned by File.systemTempDirectory. The user can change it in Preferences. Active-view mode writes <view-id>_rcastro_input.xisf, <view-id>_BXT.xisf, <view-id>_SXT.xisf, or <view-id>_NXT.xisf, and <view-id>_rcastro_<tool>.log in that directory. The view identifier is sanitized for filenames. Manual-file mode uses the selected input, output, and log paths. StarXTerminator can additionally produce a companion stars image beside its main output.
+
+## Retention and overwrite
+
+The temporary active-view input is deleted after completion, failure, or cancellation unless Keep temporary input file is enabled. Outputs and logs are retained; there is no automatic cleanup for them. Temporary filenames are deterministic rather than unique per run. An existing temporary input at the generated path is removed before export. Overwrite is enabled by default; when enabled, existing main outputs and recognized stars-output candidates are removed before processing, so a failed run does not restore them. Use a dedicated working directory and preserve needed outputs before another run.
+
+## Logs and preferences
+
+Logs contain timestamps, executable and image paths, selected command and arguments, processing status, and RC-Astro stdout/stderr. Extra command-line arguments can consequently appear in logs; do not include secrets in them. Preferences are stored through the PJSR Settings interface under RcAstroGUI/. The wrapper does not directly edit PixInsight core settings files. Review logs before sharing them.
+
+## Result opening
+
+The Open result option controls opening the main output. When StarXTerminator stars output is requested and a recognized companion file is found, the current code opens that stars image even if Open result is disabled. The wrapper copies the input display STF when available without changing output pixels.
+
+## Network and third-party behaviour
+
+RcAstro.js contains no direct network-transfer or telemetry calls and no executable downloader. This is a source-level statement about the wrapper, not a guarantee about the separately installed RC-Astro CLI. The CLI's network connections, licensing traffic, model downloads, cache locations, and integrity verification have not been verified here. Do not describe the combined product as offline or fully compliant on this basis. Before any release represented as CPD-compliant, verify and document those behaviours for supported CLI versions, including endpoints, purposes, storage locations, secure transport, integrity checks, and any consent requirements.
