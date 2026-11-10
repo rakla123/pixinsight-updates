@@ -1,6 +1,6 @@
 # FlapAstro PixInsight Updates
 
-FlapAstro's update repository for the **RC-Astro CLI Wrapper** for PixInsight.
+Source archive for the **RC-Astro CLI Wrapper** for PixInsight. Signed distribution has been withdrawn.
 
 This is an independent product, not endorsed or supported by Pleiades Astrophoto S.L. or RC Astro, LLC.
 
@@ -13,21 +13,15 @@ CPD rules version 1.0.2 were published on October 29, 2026, with an effective da
 
 See the [CPD program rules](https://pixinsight.com/security/cpd-rules/). Continued CPD distribution requires resolving the architecture through a written exception or a redesign that implements processing on the PixInsight platform. User selection of the CLI under rule 5.3 does not override rule 5.8.
 
-## Installation
+## Distribution withdrawn
 
-1. In PixInsight, open **Resources > Updates > Manage Repositories**.
-2. Add this repository URL:
+The RC-Astro CLI Wrapper was removed from signed distribution on 10 November 2026. This repository no longer publishes an update manifest or installable package downloads. Source code and Git history are retained for reference.
 
-   `https://raw.githubusercontent.com/rakla123/pixinsight-updates/main/`
+If you previously added this URL to PixInsight, remove it under **Resources > Updates > Manage Repositories** to avoid update-check errors:
 
-3. Run **Resources > Updates > Check for Updates**.
-4. Apply the available update and restart PixInsight.
+`https://raw.githubusercontent.com/rakla123/pixinsight-updates/main/`
 
-The trailing slash in the repository URL is required.
-
-If RC-Astro CLI Wrapper was previously registered manually through Feature
-Scripts, disable that manual entry before installing the repository version to
-avoid duplicate script identifiers.
+Withdrawal does not uninstall existing copies. Historical commits and tags may still contain previously published artifacts; they are not current releases.
 
 ## Requirements
 
@@ -44,12 +38,12 @@ See [execution, storage, retention, and network limitations](source/RcAstro/INST
 
 ## Package contents
 
-- `updates.xri` — PixInsight update manifest
-- `packages/` — installation-root update archives
 - `source/RcAstro/` — authoritative script and documentation sources
 - `release.ps1` — local release package and manifest generator
 
-## Signing
+## Historical signing workflow
+
+Signed distribution is withdrawn. The following records the former release procedure and is not an instruction to publish a new signed release.
 
 The `FlapAstro` signing authority is approved. Production releases must be
 signed. The `-Unsigned` switch is reserved for local test builds:

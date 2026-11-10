@@ -1,3 +1,5 @@
+> Signed distribution was withdrawn on 10 November 2026. This document records the historical signing procedure only.
+
 # Signing RC-Astro CLI Wrapper
 
 Use PixInsight's **Script > Development > CodeSign** utility. The signing key
