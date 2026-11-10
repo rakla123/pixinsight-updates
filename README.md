@@ -1,6 +1,6 @@
 # FlapAstro PixInsight Updates
 
-Source archive for the **RC-Astro CLI Wrapper** for PixInsight. Signed distribution has been withdrawn.
+The **RC-Astro CLI Wrapper** is available as an unsigned script for manual installation.
 
 This is an independent product, not endorsed or supported by Pleiades Astrophoto S.L. or RC Astro, LLC.
 
@@ -13,15 +13,17 @@ CPD rules version 1.0.2 were published on October 29, 2026, with an effective da
 
 See the [CPD program rules](https://pixinsight.com/security/cpd-rules/). Continued CPD distribution requires resolving the architecture through a written exception or a redesign that implements processing on the PixInsight platform. User selection of the CLI under rule 5.3 does not override rule 5.8.
 
-## Distribution withdrawn
+## Unsigned download and manual installation
 
-The RC-Astro CLI Wrapper was removed from signed distribution on 10 November 2026. This repository no longer publishes an update manifest or installable package downloads. Source code and Git history are retained for reference.
+The wrapper remains available as an unsigned script for manual installation. Signed CPD distribution has been withdrawn.
 
-If you previously added this URL to PixInsight, remove it under **Resources > Updates > Manage Repositories** to avoid update-check errors:
+CPD rules version 1.0.2, published 29 October 2026 and effective 12 December 2026, prohibit signed code from launching external programs to process PixInsight images (rule 5.8), unless PTeam grants a written exception (rule 5.6). This wrapper uses the external RC-Astro CLI. No written exception has been verified, so FlapAstro withdrew signed distribution on 10 November 2026. The unsigned download is outside CPD-signed distribution and is not a claim of CPD approval.
 
-`https://raw.githubusercontent.com/rakla123/pixinsight-updates/main/`
+[Download version 0.10.2 (unsigned)](https://github.com/rakla123/pixinsight-updates/releases/download/v0.10.2-unsigned/RC-Astro-CLI-Wrapper-0.10.2-unsigned.zip).
 
-Withdrawal does not uninstall existing copies. Historical commits and tags may still contain previously published artifacts; they are not current releases.
+Extract the ZIP to a permanent folder. In PixInsight, open **Script > Feature Scripts**, click **Add**, select the extracted `RcAstro` folder, then **Regenerate** and **Done**. Start **Script > Utilities > RC-Astro CLI Wrapper**. See `INSTALL.md` for requirements and runtime details. Execution is subject to PixInsight security settings; the script does not modify them.
+
+No `.xsgn` signature or `updates.xri` update manifest is published. Remove the former repository URL from **Resources > Updates > Manage Repositories** to avoid update-check errors. Existing installations are not uninstalled. Historical commits and tags remain available.
 
 ## Requirements
 

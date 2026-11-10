@@ -1,5 +1,13 @@
 # RC-Astro for PixInsight
 
+## Unsigned distribution
+
+The wrapper remains available as an unsigned script for manual installation. Signed CPD distribution has been withdrawn.
+
+CPD rules version 1.0.2, published 29 October 2026 and effective 12 December 2026, prohibit signed code from launching external programs to process PixInsight images (rule 5.8), unless PTeam grants a written exception (rule 5.6). This wrapper uses the external RC-Astro CLI. No written exception has been verified, so FlapAstro withdrew signed distribution on 10 November 2026. The unsigned download is outside CPD-signed distribution and is not a claim of CPD approval.
+
+Extract this package to a permanent folder before registration. Execution is subject to PixInsight security settings.
+
 ## Install in the Script menu
 
 1. In PixInsight, open **Script > Feature Scripts**.
